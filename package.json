@@ -1,0 +1,11 @@
+{
+  "name": "formitter",
+  "version": "1.0.0",
+  "description": "Submit your results to any google form with an easy api call",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bart Grosman",
+  "license": "ISC"
+}
