@@ -49,7 +49,7 @@ function checkRequest (req) {
     error: true,
     message: 'Did not receive a valid formid'
   }
-  if (!/^[a-z0-9\-]+$/i.test(formid)) return {
+  if (!/^[a-z0-9\-\_]+$/i.test(formid)) return {
     error: true,
     message: 'formid contained invalid characters (only alphanumeral and - allowed)'
   }
