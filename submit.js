@@ -13,13 +13,16 @@ module.exports = async (req, res) => {
     executablePath: await chrome.executablePath,
     headless: chrome.headless,
   });
+  console.log('opened browser')
   const page = await browser.newPage();
   await page.goto(formUrl);
+  console.log('opened page')
   const inputEls = await page.$$eval('input[type=text]', inputs => {
     return inputs
   });
   console.log(inputEls)
   await browser.close();
+  req.json(inputEls)
 }
 
 function checkRequest (req) {
