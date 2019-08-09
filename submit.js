@@ -12,21 +12,32 @@ module.exports = async (req, res) => {
     args: chrome.args,
     executablePath: await chrome.executablePath,
     headless: chrome.headless,
-  });
+  })
+  
   console.log('opened browser')
   const page = await browser.newPage()
   await page.goto(formUrl, {
     waitUntil: 'networkidle0'
   })
   console.log('opened page')
-  const inputEls = await page.evaluate(x => {
-    const inputs = document.querySelectorAll('input[type=text]')
-    return inputs.toString()
-  });
+  page.on('dialog', async dialog => {
+    console.log('got dialog mess', dialog.message())
+    await dialog.accept()
+  })
 
-  console.log(inputEls)
-  await browser.close();
-  req.json(inputEls)
+  const inputs = parseInputs(req.inputs)
+  await page.evaluate(inputs => {
+    const inputEls = document.querySelectorAll('input[type=text]')
+    inputEls.forEach((el, i) => {
+      const inputText = inputs[i]
+      el.value = inputText ? inputText : ''
+    })
+    // Filled all the inputs in their respective order, now submit
+    document.querySelector('form').submit()
+  }, inputs)
+
+  await browser.close()
+  res.json({ success: true })
 }
 
 function checkRequest (req) {
@@ -45,4 +56,11 @@ function checkRequest (req) {
     message: 'formid was of invalid length'
   }
   return 'valid'
+}
+
+function parseInputs (inputsString) {
+  if (typeof inputsString !== 'string') return []
+  const inputs = inputsString.split('|')
+  console.log(`Got inputs: ${inputs}`)
+  return inputs
 }
