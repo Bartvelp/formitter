@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     // Filled all the inputs in their respective order, now submit
     document.querySelector('form').submit()
   }, inputs)
-  setTimeout(() => {
+  setTimeout(async () => {
     // Wait one second so the form submit always goes through
     await browser.close()
     res.json({ success: true })
