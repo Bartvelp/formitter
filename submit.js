@@ -14,12 +14,16 @@ module.exports = async (req, res) => {
     headless: chrome.headless,
   });
   console.log('opened browser')
-  const page = await browser.newPage();
-  await page.goto(formUrl);
+  const page = await browser.newPage()
+  await page.goto(formUrl, {
+    waitUntil: 'networkidle0'
+  })
   console.log('opened page')
-  const inputEls = await page.$$eval('input[type=text]', inputs => {
-    return inputs
+  const inputEls = await page.evaluate(x => {
+    const inputs = document.querySelectorAll('input[type=text]')
+    return inputs.toString()
   });
+
   console.log(inputEls)
   await browser.close();
   req.json(inputEls)
