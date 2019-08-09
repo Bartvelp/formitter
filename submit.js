@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     executablePath: await chrome.executablePath,
     headless: chrome.headless,
   })
-  
+
   console.log('opened browser')
   const page = await browser.newPage()
   await page.goto(formUrl, {
@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
     await dialog.accept()
   })
 
-  const inputs = parseInputs(req.inputs)
+  const inputs = parseInputs(req.query.inputs)
   await page.evaluate(inputs => {
     const inputEls = document.querySelectorAll('input[type=text]')
     inputEls.forEach((el, i) => {
