@@ -8,7 +8,7 @@
     },
     {
       "src": "submit.js",
-      "use": "@now/node"
+      "use": "@now/node@0.11.1"
     }
   ],
   "github": {
