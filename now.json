@@ -9,6 +9,10 @@
     {
       "src": "submit.js",
       "use": "@now/node"
+    },
+    {
+      "src": "test.js",
+      "use": "@now/node"
     }
   ],
   "github": {
